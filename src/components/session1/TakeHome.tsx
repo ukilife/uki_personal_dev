@@ -9,6 +9,7 @@ import { celebrate } from "@/lib/celebrate";
 import { REAL_YOU_EMPTY, type RealYou } from "./RealYou";
 import { POWERS, POWER_EMPTY, type PowerState } from "./Superpowers";
 import { NOT_YET_EMPTY, type NotYetState } from "./NotYet";
+import { TenAndTen } from "./TenAndTen";
 import { THEIR_EYES_EMPTY, TheirEyes, othersSee, type TheirEyesState } from "./TheirEyes";
 
 const MISSIONS = [
@@ -33,6 +34,13 @@ const MISSIONS = [
     emoji: "📚",
     bg: "bg-mint",
   },
+  {
+    n: "04",
+    title: "The 10 + 10 List",
+    text: "Write at least 10 strengths and 10 things you want to improve. Be honest, be kind — use the list below.",
+    emoji: "✍️",
+    bg: "bg-lilac",
+  },
 ];
 
 function wrap(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxW: number, lh: number) {
@@ -51,7 +59,9 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, x: number, y: number,
 }
 
 export function TakeHome() {
-  const [done, setDone] = useLocalState<boolean[]>("s1-missions", [false, false, false]);
+  const [savedDone, setDone] = useLocalState<boolean[]>("s1-missions", MISSIONS.map(() => false));
+  // older saves only had 3 missions — pad to the current count
+  const done = MISSIONS.map((_, i) => !!savedDone[i]);
   const words = useStoredSnapshot<string[]>("s1-mirror-words", []);
   const realYou = useStoredSnapshot<RealYou>("s1-real-you", REAL_YOU_EMPTY);
   const powers = useStoredSnapshot<PowerState>("s1-superpowers", POWER_EMPTY);
@@ -65,11 +75,9 @@ export function TakeHome() {
   const othersSeeText = othersSee(theirEyes).join(", ");
 
   const toggle = (i: number) => {
-    setDone((d) => {
-      const next = d.map((v, j) => (j === i ? !v : v));
-      if (next.every(Boolean)) celebrate("big");
-      return next;
-    });
+    const next = done.map((v, j) => (j === i ? !v : v));
+    if (next.every(Boolean)) celebrate("big");
+    setDone(next);
   };
 
   const downloadCard = () => {
@@ -135,12 +143,12 @@ export function TakeHome() {
       }
       intro="The session ends here — the journey doesn't. Complete these before Session 2 and tick them off as you go."
     >
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {MISSIONS.map((m, i) => (
           <Reveal key={m.n} delay={i * 0.08}>
             <motion.button
               onClick={() => toggle(i)}
-              whileHover={{ y: -6, rotate: i === 1 ? 0 : i === 0 ? -1 : 1 }}
+              whileHover={{ y: -6, rotate: i % 2 ? 1 : -1 }}
               whileTap={{ scale: 0.97 }}
               className={`relative flex h-full w-full flex-col rounded-[2rem] border-2 border-ink p-6 text-left shadow-pop ${m.bg}`}
             >
@@ -161,9 +169,11 @@ export function TakeHome() {
           </Reveal>
         ))}
       </div>
-      <p className="mt-4 text-center text-sm font-semibold text-ink-soft">{missionsDone}/3 missions complete</p>
+      <p className="mt-4 text-center text-sm font-semibold text-ink-soft">{missionsDone}/{MISSIONS.length} missions complete</p>
 
       <TheirEyes />
+
+      <TenAndTen />
 
       {/* Who am I card */}
       <div className="mt-14 grid items-center gap-8 lg:grid-cols-2">
