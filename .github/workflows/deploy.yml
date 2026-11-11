@@ -10,9 +10,11 @@ permissions:
   pages: write
   id-token: write
 
+# Queue deploys instead of cancelling: cancelling a run can leave its Pages
+# deployment "in progress", which then blocks the next deploy.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
