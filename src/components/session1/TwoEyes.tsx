@@ -6,6 +6,8 @@ import { Brush, Dices, Download, Eraser, Save, Trash2, Undo2 } from "lucide-reac
 import { useLocalState } from "@/lib/useLocalState";
 import { Button, Reveal, Stop } from "@/components/ui";
 import { celebrate } from "@/lib/celebrate";
+import { TimerWidget } from "@/components/TimerWidget";
+import { useTimer } from "@/lib/useTimer";
 
 const W = 800;
 const H = 600;
@@ -68,6 +70,7 @@ export function TwoEyes() {
   const [gallery, setGallery] = useLocalState<Saved[]>("s1-two-eyes-gallery", []);
   const [canUndo, setCanUndo] = useState(false);
   const [blink, setBlink] = useState(false);
+  const timer = useTimer({ mode: "down", seconds: 180 });
 
   // blink every few seconds — the eyes are alive!
   useEffect(() => {
@@ -197,6 +200,7 @@ export function TwoEyes() {
         </>
       }
       intro="Here are two eyes. They're watching you… 👀 Draw ANY character around them — a person, animal, monster, robot, anything. Give it a name, then present it to the group."
+      aside={<TimerWidget timer={timer} label="drawing time" />}
     >
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
         <Reveal>

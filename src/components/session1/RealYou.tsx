@@ -6,7 +6,12 @@ import { useLocalState } from "@/lib/useLocalState";
 import { PrivateBadge, Reveal, Stop } from "@/components/ui";
 
 export type RealYou = { passions: string[]; talents: string[]; fear: string[]; admire: string[] };
-export const REAL_YOU_EMPTY: RealYou = { passions: ["", "", ""], talents: ["", "", ""], fear: [""], admire: [""] };
+export const REAL_YOU_EMPTY: RealYou = {
+  passions: ["", "", ""],
+  talents: ["", "", ""],
+  fear: ["", "", ""],
+  admire: ["", "", ""],
+};
 
 const CARDS: {
   key: keyof RealYou;
@@ -38,26 +43,28 @@ const CARDS: {
   {
     key: "fear",
     title: "Honesty",
-    prompt: "1 thing I'm afraid of",
+    prompt: "3 things I'm afraid of",
     icon: ShieldQuestionMark,
     bg: "bg-blush",
     accent: "bg-coral text-white",
-    placeholder: ["Be honest — only you can see this"],
+    placeholder: ["Be honest — only you can see this", "Something that makes me nervous", "A fear I'd love to beat one day"],
   },
   {
     key: "admire",
     title: "Inspiration",
-    prompt: "1 person I admire (and why)",
+    prompt: "3 people I admire (and why)",
     icon: Feather,
     bg: "bg-lilac",
     accent: "bg-grape text-white",
-    placeholder: ["My grandmother, because…"],
+    placeholder: ["My grandmother, because…", "A teacher or coach, because…", "Someone famous, because…"],
   },
 ];
 
 export function RealYouJournal() {
   const [data, setData] = useLocalState<RealYou>("s1-real-you", REAL_YOU_EMPTY);
-  const filled = CARDS.reduce((n, c) => n + data[c.key].filter((v) => v.trim()).length, 0);
+  // older saves had 1 line for honesty/inspiration — always read N lines per card
+  const lines = (k: keyof RealYou, n: number) => Array.from({ length: n }, (_, j) => data[k]?.[j] ?? "");
+  const filled = CARDS.reduce((n, c) => n + lines(c.key, c.placeholder.length).filter((v) => v.trim()).length, 0);
   const total = CARDS.reduce((n, c) => n + c.placeholder.length, 0);
 
   return (
@@ -84,7 +91,7 @@ export function RealYouJournal() {
         <div className="grid gap-6 md:grid-cols-2 md:gap-x-16">
           {CARDS.map((c, ci) => {
             const Icon = c.icon;
-            const done = data[c.key].every((v) => v.trim());
+            const done = lines(c.key, c.placeholder.length).every((v) => v.trim());
             return (
               <Reveal key={c.key} delay={ci * 0.08}>
                 <motion.div
@@ -105,11 +112,13 @@ export function RealYouJournal() {
                       <div key={i} className="flex items-center gap-3">
                         <span className="font-display w-5 text-right text-lg font-bold text-ink/30">{i + 1}</span>
                         <input
-                          value={data[c.key][i] ?? ""}
+                          value={data[c.key]?.[i] ?? ""}
                           onChange={(e) =>
                             setData((d) => ({
                               ...d,
-                              [c.key]: d[c.key].map((v, j) => (j === i ? e.target.value : v)),
+                              [c.key]: Array.from({ length: c.placeholder.length }, (_, j) =>
+                                j === i ? e.target.value : (d[c.key]?.[j] ?? ""),
+                              ),
                             }))
                           }
                           maxLength={80}

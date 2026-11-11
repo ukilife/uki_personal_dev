@@ -54,7 +54,7 @@ export function NotYet() {
     <Stop
       id="not-yet"
       stop={9}
-      kicker="Mindset · Growth"
+      kicker="Life marathon · Step 2 · Weaknesses"
       tone="blush"
       title={
         <>

@@ -9,6 +9,7 @@ import { celebrate } from "@/lib/celebrate";
 import { REAL_YOU_EMPTY, type RealYou } from "./RealYou";
 import { POWERS, POWER_EMPTY, type PowerState } from "./Superpowers";
 import { NOT_YET_EMPTY, type NotYetState } from "./NotYet";
+import { THEIR_EYES_EMPTY, TheirEyes, othersSee, type TheirEyesState } from "./TheirEyes";
 
 const MISSIONS = [
   {
@@ -21,7 +22,7 @@ const MISSIONS = [
   {
     n: "02",
     title: "Through Their Eyes",
-    text: "Ask two people: “What are my top 3 strengths?” and “What's one thing I could improve?”",
+    text: "Ask 5 people: “What are my top 3 strengths?” and “What's one thing I could improve?” Log their answers below.",
     emoji: "👀",
     bg: "bg-sky",
   },
@@ -60,6 +61,8 @@ export function TakeHome() {
   const powerLabels = powers.picked.map((id) => POWERS.find((p) => p.id === id)?.label).filter(Boolean) as string[];
   const loves = realYou.passions.filter((v) => v.trim());
   const growing = notYet.chosen !== null ? notYet.weak[notYet.chosen] : "";
+  const theirEyes = useStoredSnapshot<TheirEyesState>("s1-their-eyes", THEIR_EYES_EMPTY);
+  const othersSeeText = othersSee(theirEyes).join(", ");
 
   const toggle = (i: number) => {
     setDone((d) => {
@@ -105,6 +108,7 @@ export function TakeHome() {
     block("My superpowers", powerLabels.join(", "), "#2f7fc1");
     block("Proudest of", proud?.label ?? "", "#7b3fa0");
     block("Growing (not yet!)", growing, "#1f9d8a");
+    block("Others see in me", othersSeeText, "#f7845e");
     x.fillStyle = "#23204e";
     x.fillRect(0, H - 120, W, 120);
     x.fillStyle = "#ffc93c";
@@ -159,6 +163,8 @@ export function TakeHome() {
       </div>
       <p className="mt-4 text-center text-sm font-semibold text-ink-soft">{missionsDone}/3 missions complete</p>
 
+      <TheirEyes />
+
       {/* Who am I card */}
       <div className="mt-14 grid items-center gap-8 lg:grid-cols-2">
         <Reveal>
@@ -201,6 +207,7 @@ export function TakeHome() {
                 ["My superpowers", powerLabels.join(", "), "bg-sky-deep"],
                 ["Proudest of", proud ? `👑 ${proud.label}` : "", "bg-grape"],
                 ["Growing (not yet!)", growing, "bg-teal"],
+                ["Others see in me 👀", othersSeeText, "bg-coral"],
               ].map(([k, v, c]) => (
                 <div key={k}>
                   <dt className="flex items-center gap-2 text-xs font-bold tracking-widest text-ink-soft uppercase">

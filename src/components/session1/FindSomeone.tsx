@@ -4,11 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Bike, CookingPot, Car, Clapperboard, Drama, Flame, Globe, Heart, IceCreamCone, Languages, FaceGrinning, Lightbulb,
-  MessageSquareX, Moon, Music, PawPrint, Rocket, Soup, Star, Tag, Timer, RotateCcw, Users,
+  MessageSquareX, Moon, Music, PawPrint, Rocket, Soup, Star, Tag, RotateCcw, Users,
   type LucideIcon,
 } from "lucide-react";
 import { useLocalState } from "@/lib/useLocalState";
 import { Button, Reveal, Stop } from "@/components/ui";
+import { TimerWidget } from "@/components/TimerWidget";
+import { formatTime, useTimer } from "@/lib/useTimer";
 import { celebrate } from "@/lib/celebrate";
 
 const PROMPTS: { text: string; icon: LucideIcon; color: string }[] = [
@@ -45,8 +47,8 @@ export function FindSomeone() {
   const [names, setNames] = useLocalState<string[]>("s1-find-someone", Array(20).fill(""));
   const [open, setOpen] = useState<number | null>(null);
   const [draft, setDraft] = useState("");
-  const [seconds, setSeconds] = useState(0);
-  const [running, setRunning] = useState(false);
+  const timer = useTimer({ mode: "down", seconds: 300 });
+  const { pause, reset } = timer;
   const celebrated = useRef<Set<string>>(new Set());
 
   const done = names.filter(Boolean).length;
@@ -64,15 +66,9 @@ export function FindSomeone() {
     if (done === 20 && !celebrated.current.has("all")) {
       celebrated.current.add("all");
       celebrate("big");
-      setRunning(false);
+      pause();
     }
-  }, [completeLines, done]);
-
-  useEffect(() => {
-    if (!running) return;
-    const t = setInterval(() => setSeconds((s) => s + 1), 1000);
-    return () => clearInterval(t);
-  }, [running]);
+  }, [completeLines, done, pause]);
 
   const save = () => {
     if (open === null) return;
@@ -80,8 +76,7 @@ export function FindSomeone() {
     setOpen(null);
   };
 
-  const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
-  const ss = String(seconds % 60).padStart(2, "0");
+  const tookTime = formatTime(timer.elapsed);
 
   return (
     <Stop
@@ -95,19 +90,7 @@ export function FindSomeone() {
         </>
       }
       intro="Walk around, ask questions, and find a different person for each box. Tap a box to write their name. Complete a row or column for a mini-celebration — fill all 20 to win!"
-      aside={
-        <div className="flex shrink-0 items-center gap-3 rounded-3xl border-2 border-ink bg-white p-3 shadow-pop">
-          <div className="text-center">
-            <p className="font-display text-3xl font-bold tabular-nums">
-              {mm}:{ss}
-            </p>
-            <p className="text-[10px] font-semibold tracking-widest text-ink-soft uppercase">mingle timer</p>
-          </div>
-          <Button variant={running ? "coral" : "teal"} onClick={() => setRunning((r) => !r)} className="px-3 py-2">
-            <Timer size={16} /> {running ? "Pause" : "Go!"}
-          </Button>
-        </div>
-      }
+      aside={<TimerWidget timer={timer} label="mingle timer" />}
     >
       <Reveal>
         <div className="mb-5 flex flex-wrap items-center gap-4">
@@ -123,8 +106,7 @@ export function FindSomeone() {
             onClick={() => {
               setNames(Array(20).fill(""));
               celebrated.current.clear();
-              setSeconds(0);
-              setRunning(false);
+              reset();
             }}
             className="flex items-center gap-1 text-sm font-semibold text-ink-soft hover:text-ink"
           >
@@ -193,7 +175,7 @@ export function FindSomeone() {
             exit={{ opacity: 0 }}
             className="mt-8 rounded-3xl border-2 border-ink bg-ink p-6 text-center text-cream"
           >
-            <p className="font-display text-3xl font-bold text-sun">Full card in {mm}:{ss}! 🎉</p>
+            <p className="font-display text-3xl font-bold text-sun">Full card in {tookTime}! 🎉</p>
             <p className="mt-2 text-cream/80">
               Look how much you can learn about people in a few minutes. Now — how much do you know about{" "}
               <b>yourself</b>?

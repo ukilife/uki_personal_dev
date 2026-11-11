@@ -1,10 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, useAnimationControls } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Hand, Minus, Play, Plus, RotateCcw, Trophy } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Hand, Hourglass, Minus, Pause, Play, Plus, RotateCcw, Timer as TimerIcon, Trophy } from "lucide-react";
 import { Button, Reveal, Stop } from "@/components/ui";
 import { celebrate } from "@/lib/celebrate";
+import { formatTime, timerLabel, useTimer } from "@/lib/useTimer";
 
 const BUTTONS = 5;
 type TeamId = "blue" | "red";
@@ -35,12 +36,20 @@ export function ButtonChallenge() {
   const [progress, setProgress] = useState<Record<TeamId, number>>({ blue: 0, red: 0 });
   const [drops, setDrops] = useState<Record<TeamId, number>>({ blue: 0, red: 0 });
   const [frozen, setFrozen] = useState<Record<TeamId, boolean>>({ blue: false, red: false });
-  const [running, setRunning] = useState(false);
-  const [ms, setMs] = useState(0);
   const [winner, setWinner] = useState<TeamId | null>(null);
-  const start = useRef(0);
+  const [timeUp, setTimeUp] = useState(false);
   const blueCtl = useAnimationControls();
   const redCtl = useAnimationControls();
+  const timer = useTimer({
+    mode: "up",
+    seconds: 120,
+    tick: 100,
+    onAlarm: () => {
+      setTimeUp(true);
+      setWinner(progress.blue > progress.red ? "blue" : progress.red > progress.blue ? "red" : null);
+    },
+  });
+  const running = timer.running && !winner && !timeUp;
 
   const passesPerButton = players - 1;
   const goal = BUTTONS * passesPerButton;
@@ -48,17 +57,15 @@ export function ButtonChallenge() {
   const pass = useCallback(
     (t: TeamId) => {
       if (!running || winner || frozen[t]) return;
-      setProgress((p) => {
-        const next = Math.min(p[t] + 1, goal);
-        if (next === goal) {
-          setWinner(t);
-          setRunning(false);
-          celebrate("big");
-        }
-        return { ...p, [t]: next };
-      });
+      const next = Math.min(progress[t] + 1, goal);
+      setProgress((p) => ({ ...p, [t]: next }));
+      if (next === goal) {
+        setWinner(t);
+        timer.pause();
+        celebrate("big");
+      }
     },
-    [running, winner, frozen, goal],
+    [running, winner, frozen, goal, progress, timer],
   );
 
   const drop = useCallback(
@@ -71,12 +78,6 @@ export function ButtonChallenge() {
     },
     [running, winner, blueCtl, redCtl],
   );
-
-  useEffect(() => {
-    if (!running) return;
-    const t = setInterval(() => setMs(Date.now() - start.current), 100);
-    return () => clearInterval(t);
-  }, [running]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -96,17 +97,18 @@ export function ButtonChallenge() {
     setDrops({ blue: 0, red: 0 });
     setFrozen({ blue: false, red: false });
     setWinner(null);
-    setRunning(false);
-    setMs(0);
+    setTimeUp(false);
+    timer.reset();
   };
 
   const go = () => {
     reset();
-    start.current = Date.now();
-    setRunning(true);
+    timer.start();
   };
 
-  const time = `${Math.floor(ms / 60000)}:${String(Math.floor((ms / 1000) % 60)).padStart(2, "0")}.${Math.floor((ms % 1000) / 100)}`;
+  const time = timerLabel(timer, true);
+  const raceTime = formatTime(timer.elapsed, { tenths: true });
+  const fresh = !timer.started && !winner && !timeUp;
 
   return (
     <Stop
@@ -171,14 +173,54 @@ export function ButtonChallenge() {
         {/* arena */}
         <Reveal delay={0.1} className="relative rounded-[2rem] border-2 border-ink bg-white p-5 shadow-pop-lg sm:p-6">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-            <div className="font-display text-5xl font-bold tabular-nums">{time}</div>
+            <div>
+              <div className="font-display text-5xl font-bold tabular-nums">{time}</div>
+              <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs font-bold">
+                <button
+                  onClick={() => timer.setMode("up")}
+                  disabled={!fresh}
+                  className={`flex items-center gap-1 rounded-full border-2 px-2.5 py-1 disabled:opacity-50 ${
+                    timer.mode === "up" ? "border-ink bg-ink text-cream" : "border-ink/20 bg-white"
+                  }`}
+                >
+                  <TimerIcon size={12} /> Stopwatch
+                </button>
+                <button
+                  onClick={() => timer.setMode("down")}
+                  disabled={!fresh}
+                  className={`flex items-center gap-1 rounded-full border-2 px-2.5 py-1 disabled:opacity-50 ${
+                    timer.mode === "down" ? "border-ink bg-ink text-cream" : "border-ink/20 bg-white"
+                  }`}
+                >
+                  <Hourglass size={12} /> Time limit
+                </button>
+                {timer.mode === "down" &&
+                  fresh &&
+                  [60, 120, 180, 300].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => timer.setTarget(s)}
+                      className={`rounded-full border-2 px-2 py-0.5 ${
+                        timer.target === s ? "border-ink bg-sun" : "border-ink/20 bg-white hover:border-ink"
+                      }`}
+                    >
+                      {s / 60}m
+                    </button>
+                  ))}
+              </div>
+            </div>
             <div className="flex gap-2">
-              {!running && !winner && (
-                <Button onClick={go} variant="teal">
-                  <Play size={18} /> {ms ? "Restart" : "3, 2, 1… Go!"}
+              {!running && !winner && !timeUp && (
+                <Button onClick={timer.started ? timer.start : go} variant="teal">
+                  <Play size={18} /> {timer.started ? "Resume" : "3, 2, 1… Go!"}
                 </Button>
               )}
-              {(running || winner || ms > 0) && (
+              {running && (
+                <Button onClick={timer.pause} variant="white">
+                  <Pause size={18} /> Pause
+                </Button>
+              )}
+              {(running || winner || timeUp || timer.started) && (
                 <Button onClick={reset} variant="white">
                   <RotateCcw size={18} /> Reset
                 </Button>
@@ -263,7 +305,7 @@ export function ButtonChallenge() {
           </div>
 
           <AnimatePresence>
-            {winner && (
+            {(winner || timeUp) && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.6 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -274,12 +316,27 @@ export function ButtonChallenge() {
                   <motion.div animate={{ rotate: [0, -10, 10, 0], y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 1.6 }}>
                     <Trophy size={72} className="mx-auto text-sun" />
                   </motion.div>
-                  <p className="mt-3 font-display text-5xl font-bold" style={{ color: TEAM[winner].hex === "#2f7fc1" ? "#8cc8f5" : "#ff9db3" }}>
-                    {TEAM[winner].name} wins!
-                  </p>
-                  <p className="mt-2 text-cream/80">
-                    in {time} with {drops[winner]} drop{drops[winner] === 1 ? "" : "s"}
-                  </p>
+                  {timeUp && <p className="mt-3 font-display text-2xl font-bold text-coral">⏰ Time&apos;s up!</p>}
+                  {winner ? (
+                    <>
+                      <p
+                        className="mt-3 font-display text-5xl font-bold"
+                        style={{ color: winner === "blue" ? "#8cc8f5" : "#ff9db3" }}
+                      >
+                        {TEAM[winner].name} {timeUp ? "leads!" : "wins!"}
+                      </p>
+                      <p className="mt-2 text-cream/80">
+                        {timeUp ? "furthest along" : `in ${raceTime}`} with {drops[winner]} drop{drops[winner] === 1 ? "" : "s"}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="mt-3 font-display text-5xl font-bold text-sun">It&apos;s a tie!</p>
+                  )}
+                  {timeUp && (
+                    <button onClick={timer.dismiss} className="mt-2 text-sm font-semibold text-cream/70 underline">
+                      Silence alarm
+                    </button>
+                  )}
                   <p className="mx-auto mt-5 max-w-sm text-lg">
                     Quick reflection: <b className="text-sun">what helped your team stay focused?</b> Hold that thought…
                   </p>

@@ -57,7 +57,7 @@ export function Superpowers() {
     <Stop
       id="superpowers"
       stop={8}
-      kicker="Mission · Strengths"
+      kicker="Life marathon · Step 1 · Strengths"
       tone="sky"
       title={
         <>
