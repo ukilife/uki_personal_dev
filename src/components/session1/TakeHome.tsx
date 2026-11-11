@@ -96,7 +96,7 @@ export function TakeHome() {
     x.fillText("Who am I?", 80, 170);
     x.font = "500 34px Lexend, sans-serif";
     x.fillStyle = "#4a4775";
-    x.fillText(powers.alias ? `aka ${powers.alias}` : "Uki Growth Journey · Session 01", 80, 240);
+    x.fillText(powers.alias ? `aka ${powers.alias}` : "Unfold · Session 01", 80, 240);
     let y = 420;
     const block = (title: string, body: string, color: string) => {
       if (!body) return;
@@ -208,7 +208,7 @@ export function TakeHome() {
           >
             <div className="bg-sky px-6 pt-6 pb-5">
               <p className="font-display text-5xl font-bold">Who am I?</p>
-              <p className="mt-1 text-ink-soft">{powers.alias ? `aka ${powers.alias}` : "Uki Growth Journey · Session 01"}</p>
+              <p className="mt-1 text-ink-soft">{powers.alias ? `aka ${powers.alias}` : "Unfold · Session 01"}</p>
             </div>
             <dl className="space-y-4 p-6">
               {[

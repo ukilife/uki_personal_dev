@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, type HTMLMotionProps } from "motion/react";
 import type { ReactNode } from "react";
 
@@ -87,6 +88,41 @@ export function Stop({ id, stop, kicker, title, intro, children, tone = "cream",
         {children}
       </div>
     </section>
+  );
+}
+
+const BTN_VARIANTS = {
+  sun: "bg-sun text-ink",
+  teal: "bg-teal text-white",
+  coral: "bg-coral text-white",
+  white: "bg-white text-ink",
+  ink: "bg-ink text-cream",
+  grape: "bg-grape text-white",
+} as const;
+
+const BTN_BASE =
+  "btn-pop font-display inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-ink px-5 py-3 text-base font-semibold focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sun/70";
+
+/** A link that looks exactly like <Button> (no nested interactive elements). */
+export function ButtonLink({
+  href,
+  children,
+  variant = "sun",
+  className = "",
+  style,
+  ...rest
+}: {
+  href: string;
+  children: ReactNode;
+  variant?: keyof typeof BTN_VARIANTS;
+  className?: string;
+  style?: React.CSSProperties;
+  "aria-label"?: string;
+}) {
+  return (
+    <Link href={href} className={`${BTN_BASE} ${BTN_VARIANTS[variant]} ${className}`} style={style} {...rest}>
+      {children}
+    </Link>
   );
 }
 

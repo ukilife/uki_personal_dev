@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fredoka, Lexend } from "next/font/google";
 import "./globals.css";
+import { MotionProvider } from "@/components/MotionProvider";
 
 const fredoka = Fredoka({
   variable: "--font-fredoka",
@@ -14,15 +15,17 @@ const lexend = Lexend({
 });
 
 export const metadata: Metadata = {
-  title: "Uki Growth Journey",
+  title: "Unfold – Personal Development",
   description:
-    "Uki Personal Development — an interactive journey for Uki students to discover who they are, one session at a time.",
+    "Every Week, Unfold a New You. An interactive personal development journey for students.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${fredoka.variable} ${lexend.variable} antialiased`}>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

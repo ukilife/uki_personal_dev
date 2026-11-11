@@ -16,7 +16,7 @@ import { Checkpoint } from "@/components/session1/Checkpoint";
 import { TakeHome } from "@/components/session1/TakeHome";
 
 export const metadata: Metadata = {
-  title: "Session 1 · Who Am I? — Uki Growth Journey",
+  title: "Session 1 · Who Am I? — Unfold",
   description: "Do you really know yourself? Play, draw, race and reflect your way to the answer.",
 };
 
