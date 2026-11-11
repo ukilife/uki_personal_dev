@@ -45,17 +45,28 @@ export const SESSIONS: SessionMeta[] = [
   },
   {
     number: 2,
-    slug: "focus-and-dreams",
-    title: "Focus & Dreams",
+    slug: "discipline-and-dreams",
+    title: "Discipline & Dreams",
     destination: "The Dream Mountain",
     headline: "How Far Can Your Dreams Take You?",
     description:
-      "Your dreams are waiting. Discover what you want, sharpen your focus and start turning imagination into real goals.",
-    activities: ["Concentration Challenges", "Memory Games", "Focus Techniques", "Dreams vs Goals", "SMART Goals", "Dream Board Creation"],
-    cta: "Explore My Dreams",
+      "Dreams need discipline to climb. Train your self-control, take on a 21-day challenge, map your SWOT and write the bucket list of your life.",
+    activities: [
+      "Strengths & Weaknesses, Part 2",
+      "Why Discipline Matters",
+      "Discipline Games",
+      "21-Day Challenge",
+      "Why Challenge Matters",
+      "SWOT Analysis",
+      "My Own SWOT",
+      "Bucket List",
+      "Figure Yourself (homework)",
+    ],
+    cta: "Climb the Mountain",
     scene: "mountain",
     color: "#7b3fa0",
     soft: "bg-lilac",
+    href: "/sessions/discipline-and-dreams",
   },
   {
     number: 3,
@@ -117,4 +128,21 @@ export const SESSION_ONE_STOPS = [
   { id: "not-yet", label: "Not YET", emoji: "🌱" },
   { id: "checkpoint", label: "Checkpoint", emoji: "🧘" },
   { id: "take-home", label: "Take-Home", emoji: "🎒" },
+] as const;
+
+/** Number of take-home missions in Session 2 (see session2/FigureYourself.tsx). */
+export const SESSION_TWO_MISSIONS = 4;
+
+/** The stops of Session 2, in teaching order. */
+export const SESSION_TWO_STOPS = [
+  { id: "start", label: "Discipline & Dreams", emoji: "⛰️" },
+  { id: "strengths", label: "Strengths, Part 2", emoji: "⚖️" },
+  { id: "discipline", label: "Why Discipline", emoji: "🧭" },
+  { id: "discipline-games", label: "Discipline Games", emoji: "🎮" },
+  { id: "21-days", label: "21-Day Challenge", emoji: "📅" },
+  { id: "challenge", label: "Why Challenge", emoji: "🧗" },
+  { id: "swot-intro", label: "SWOT Intro", emoji: "🧩" },
+  { id: "my-swot", label: "My SWOT", emoji: "🗺️" },
+  { id: "bucket-list", label: "Bucket List", emoji: "🪣" },
+  { id: "take-home", label: "Figure Yourself", emoji: "🎒" },
 ] as const;

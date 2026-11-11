@@ -9,9 +9,9 @@ import { Reveal } from "@/components/ui";
 const BADGES: { name: string; icon: LucideIcon; color: string; soft: string; how: string; where: string }[] = [
   { name: "Self-Discovery Explorer", icon: Compass, color: "#1f9d8a", soft: "bg-teal-soft", how: "Fill every page of Meet the Real You.", where: "Session 1" },
   { name: "Creative Thinker", icon: Lightbulb, color: "#e0a800", soft: "bg-sun-soft", how: "Bring a character to life in the Two Eyes Challenge.", where: "Session 1" },
-  { name: "Focus Champion", icon: Target, color: "#2f7fc1", soft: "bg-sky", how: "Take on all three Focus Lock tests.", where: "Sessions 1–2" },
-  { name: "Dream Builder", icon: Mountain, color: "#7b3fa0", soft: "bg-lilac", how: "Create your Dream Board with SMART goals.", where: "Session 2" },
-  { name: "Habit Hero", icon: Sprout, color: "#5aa832", soft: "bg-mint", how: "Complete the 21-Day Habit Tracker.", where: "Session 3" },
+  { name: "Focus Champion", icon: Target, color: "#2f7fc1", soft: "bg-sky", how: "Take on all three Focus Lock tests.", where: "Session 1" },
+  { name: "Dream Builder", icon: Mountain, color: "#7b3fa0", soft: "bg-lilac", how: "Complete your SWOT and write 10 bucket-list dreams.", where: "Session 2" },
+  { name: "Habit Hero", icon: Sprout, color: "#5aa832", soft: "bg-mint", how: "Finish your 21-Day Challenge without giving up.", where: "Session 2" },
   { name: "Courage Explorer", icon: MessageCircle, color: "#f7845e", soft: "bg-blush", how: "Take the Real-World Stranger Challenge.", where: "Session 4" },
 ];
 

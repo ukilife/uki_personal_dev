@@ -30,8 +30,8 @@ const CARDS: {
   {
     title: "My Dreams",
     q: "What do I want to become?",
-    href: "#session-2",
-    where: "Session 2 · The Dream Mountain",
+    href: "/sessions/discipline-and-dreams#bucket-list",
+    where: "Session 2 · Bucket List",
     icon: Star,
     orbit: ["🚀", "🔭", "✨"],
     accent: "#7b3fa0",

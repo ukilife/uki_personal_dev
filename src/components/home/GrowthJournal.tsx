@@ -49,9 +49,10 @@ const TABS: Tab[] = [
     label: "My Goals",
     icon: Target,
     color: "#7b3fa0",
-    prompt: "Dreams vs goals, SMART goals and your Dream Board.",
-    inside: ["Dreams vs Goals", "SMART Goals", "Dream Board"],
-    arrives: "Session 2 · The Dream Mountain",
+    prompt: "Your SWOT map, your best move and the bucket list of your life.",
+    inside: ["My SWOT", "My best move", "Bucket List"],
+    href: "/sessions/discipline-and-dreams#my-swot",
+    keys: ["s2-swot", "s2-bucket"],
   },
   {
     id: "reflect",
@@ -59,9 +60,9 @@ const TABS: Tab[] = [
     icon: NotebookPen,
     color: "#2f7fc1",
     prompt: "Quiet minutes to notice what you discovered today.",
-    inside: ["“One thing I discovered today…”", "Calm-minutes checkpoint"],
+    inside: ["“One thing I discovered today…”", "Calm-minutes checkpoint", "Figure Yourself worksheet"],
     href: "/sessions/who-am-i#checkpoint",
-    keys: ["s1-checkpoint"],
+    keys: ["s1-checkpoint", "s2-figure-yourself"],
   },
   {
     id: "homework",
@@ -71,7 +72,7 @@ const TABS: Tab[] = [
     prompt: "Your take-home missions, including the 7-Page Challenge.",
     inside: ["Weekly missions", "Ask 5 People", "7-Page Challenge"],
     href: "/sessions/who-am-i#take-home",
-    keys: ["s1-missions", "s1-their-eyes"],
+    keys: ["s1-missions", "s1-their-eyes", "s2-missions"],
   },
   {
     id: "habits",
@@ -79,8 +80,9 @@ const TABS: Tab[] = [
     icon: CalendarCheck,
     color: "#5aa832",
     prompt: "Twenty-one days, one small habit, one tick at a time.",
-    inside: ["Habit Loop", "21-Day Habit Tracker"],
-    arrives: "Session 3 · The Habit Forest",
+    inside: ["21-Day Challenge", "Comfort-zone map", "Habit Loop (Session 3)"],
+    href: "/sessions/discipline-and-dreams#21-days",
+    keys: ["s2-21days", "s2-zones"],
   },
 ];
 

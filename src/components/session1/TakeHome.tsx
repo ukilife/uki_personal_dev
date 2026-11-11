@@ -255,8 +255,8 @@ export function TakeHome() {
               What if your dreams could become <span className="text-sun">real goals?</span>
             </p>
             <p className="mt-4 text-lg text-white/85">Bring your missions. Your next adventure awaits.</p>
-            <Link href="/#journey" className="mt-6 inline-block">
-              <Button>See the journey map</Button>
+            <Link href="/sessions/discipline-and-dreams" className="mt-6 inline-block">
+              <Button>Go to Session 2</Button>
             </Link>
           </div>
         </div>
