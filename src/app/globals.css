@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ---------- Uki design tokens ---------- */
+@theme {
+  --color-cream: #fff8ec;
+  --color-paper: #fffdf8;
+  --color-ink: #23204e;
+  --color-ink-soft: #4a4775;
+  --color-sky: #dceefb;
+  --color-sky-deep: #2f7fc1;
+  --color-teal: #1f9d8a;
+  --color-teal-soft: #d5f2ec;
+  --color-sun: #ffc93c;
+  --color-sun-soft: #fef0c0;
+  --color-coral: #f7845e;
+  --color-blush: #fdd8d0;
+  --color-mint: #e2f1d9;
+  --color-lilac: #ece2fb;
+  --color-grape: #7b3fa0;
+  --color-berry: #d9345b;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-display: var(--font-fredoka), ui-rounded, system-ui, sans-serif;
+  --font-sans: var(--font-lexend), system-ui, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --shadow-pop: 0 6px 0 0 rgb(35 32 78 / 0.12);
+  --shadow-pop-lg: 0 10px 0 0 rgb(35 32 78 / 0.12), 0 20px 40px -12px rgb(35 32 78 / 0.25);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 9s ease-in-out infinite;
+  --animate-wiggle: wiggle 2.4s ease-in-out infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-marquee: marquee 30s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-14px) rotate(3deg); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+/* dotted paper texture used on section backgrounds */
+.bg-dots {
+  background-image: radial-gradient(rgb(35 32 78 / 0.08) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgb(35 32 78 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(35 32 78 / 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* chunky "pressable" button */
+.btn-pop {
+  box-shadow: 0 5px 0 0 rgb(35 32 78 / 0.85);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn-pop:hover { transform: translateY(-2px); box-shadow: 0 7px 0 0 rgb(35 32 78 / 0.85); }
+.btn-pop:active { transform: translateY(4px); box-shadow: 0 1px 0 0 rgb(35 32 78 / 0.85); }
+
+.card-pop {
+  box-shadow: var(--shadow-pop);
+}
+
+/* hand-drawn underline */
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M2 8 Q 15 2 30 7 T 60 7 T 90 7 T 118 6' fill='none' stroke='%23ffc93c' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 0.45em;
+  background-position: 0 100%;
+  padding-bottom: 0.08em;
+}
+
+input, textarea { font-family: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
 }
