@@ -9,6 +9,7 @@ import { Button, Reveal, Stop } from "@/components/ui";
 import { celebrate } from "@/lib/celebrate";
 import { playAlarm, primeAlarm } from "@/lib/alarm";
 import { timerLabel, useTimer } from "@/lib/useTimer";
+import { useLocalState } from "@/lib/useLocalState";
 
 const GAME_MS = 20000;
 const POPUPS = [
@@ -324,15 +325,190 @@ function ColourClash() {
   );
 }
 
+/* ───────── Focus Lock · Test 3: Number Hunt (tap 1 → 25 in order) ───────── */
+
+const HUNT_N = 25;
+type HuntMode = "classic" | "shuffle";
+
+function shuffled() {
+  const a = Array.from({ length: HUNT_N }, (_, i) => i + 1);
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// event-handler only (the compiler can't tell tap() never runs during render)
+const elapsedSince = (t0: number) => Date.now() - t0;
+
+const START_GRID = Array.from({ length: HUNT_N }, (_, i) => i + 1);
+
+function NumberHunt() {
+  const [mode, setMode] = useState<HuntMode>("classic");
+  const [phase, setPhase] = useState<"idle" | "play" | "done">("idle");
+  const [grid, setGrid] = useState<number[]>(START_GRID);
+  const [next, setNext] = useState(1);
+  const [misses, setMisses] = useState(0);
+  const [ms, setMs] = useState(0);
+  const [wrong, setWrong] = useState<number | null>(null);
+  const [best, setBest] = useLocalState<Record<HuntMode, number | null>>("s1-number-hunt-best", {
+    classic: null,
+    shuffle: null,
+  });
+  const startedAt = useRef(0);
+
+  useEffect(() => {
+    if (phase !== "play") return;
+    const id = setInterval(() => setMs(Date.now() - startedAt.current), 100);
+    return () => clearInterval(id);
+  }, [phase]);
+
+  const begin = () => {
+    setGrid(shuffled());
+    setNext(1);
+    setMisses(0);
+    setMs(0);
+    startedAt.current = Date.now();
+    setPhase("play");
+  };
+
+  const tap = (n: number) => {
+    if (phase !== "play") return;
+    if (n !== next) {
+      setMisses((m) => m + 1);
+      setWrong(n);
+      setTimeout(() => setWrong(null), 250);
+      return;
+    }
+    if (n === HUNT_N) {
+      const t = elapsedSince(startedAt.current);
+      setMs(t);
+      setPhase("done");
+      const prev = best[mode];
+      if (prev === null || t < prev) {
+        setBest({ ...best, [mode]: t });
+        celebrate("small");
+      }
+      return;
+    }
+    setNext(n + 1);
+    if (mode === "shuffle") setGrid(shuffled());
+  };
+
+  const secs = (v: number) => (v / 1000).toFixed(1);
+  const verdict =
+    ms < 25000 ? "Eagle eyes! 🦅 Your focus is locked in." : ms < 40000 ? "Strong focus — you stayed with it. 💪" : "Every hunt trains your brain. Go again and beat your time! 🔁";
+  const bestNow = best[mode];
+
+  return (
+    <div className="rounded-[2rem] border-2 border-ink bg-white p-4 shadow-pop-lg sm:p-5">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div>
+          <p className="font-display text-xl font-bold">Number Hunt 🔢</p>
+          <p className="text-sm text-ink-soft">
+            Tap <b>1 → 25 in order</b> as fast as you can. Eyes on the grid — don&apos;t lose your place!
+          </p>
+        </div>
+        <div className="text-right">
+          <p className="font-display text-3xl font-bold tabular-nums">{secs(ms)}s</p>
+          <p className="text-[10px] font-bold tracking-widest text-ink-soft uppercase">
+            {bestNow !== null ? `best ${secs(bestNow)}s` : "time"}
+          </p>
+        </div>
+      </div>
+
+      <div className="mb-3 flex flex-wrap items-center gap-2 text-xs font-bold">
+        {(
+          [
+            ["classic", "Classic"],
+            ["shuffle", "Hard: shuffles every tap 😵"],
+          ] as const
+        ).map(([m, label]) => (
+          <button
+            key={m}
+            onClick={() => phase !== "play" && setMode(m)}
+            disabled={phase === "play"}
+            aria-pressed={mode === m}
+            className={`rounded-full border-2 px-3 py-1 disabled:opacity-50 ${
+              mode === m ? "border-ink bg-ink text-cream" : "border-ink/20 bg-white hover:border-ink"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+        {phase === "play" && (
+          <span className="ml-auto rounded-full bg-sun px-3 py-1">
+            find <span className="font-display text-sm">{next}</span> · ✗ {misses}
+          </span>
+        )}
+      </div>
+
+      <div className="relative overflow-hidden rounded-3xl border-2 border-ink bg-ink p-2 sm:p-3">
+        <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+          {grid.map((n) => {
+            const found = phase !== "idle" && n < next;
+            return (
+              <motion.button
+                key={mode === "shuffle" ? `${n}` : `${n}-${phase}`}
+                layout={mode === "shuffle"}
+                transition={{ type: "tween", duration: 0.18 }}
+                onClick={() => tap(n)}
+                disabled={phase !== "play"}
+                animate={wrong === n ? { x: [0, -5, 5, -3, 0] } : { x: 0 }}
+                className={`grid aspect-square place-items-center rounded-xl font-display text-xl font-bold transition-colors sm:text-2xl ${
+                  wrong === n
+                    ? "bg-coral text-white"
+                    : found
+                      ? "bg-teal/40 text-cream/40"
+                      : "bg-cream text-ink hover:bg-sun"
+                }`}
+              >
+                {n}
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {phase !== "play" && (
+          <div className="absolute inset-0 grid place-items-center bg-ink/85 p-6 text-center text-cream backdrop-blur-[2px]">
+            <div>
+              {phase === "done" ? (
+                <>
+                  <p className="font-display text-6xl font-bold text-sun">{secs(ms)}s</p>
+                  <p className="text-sm text-cream/70">
+                    {misses} miss{misses === 1 ? "" : "es"}
+                    {bestNow === ms && " · new personal best! 🏆"}
+                  </p>
+                  <p className="mt-2 text-lg">{verdict}</p>
+                </>
+              ) : (
+                <>
+                  <p className="font-display text-5xl font-bold text-sun">1 → 25</p>
+                  <p className="mt-2 text-cream/80">The numbers will be scrambled. Find them in order.</p>
+                </>
+              )}
+              <Button className="mt-5" onClick={begin}>
+                {phase === "done" ? "Hunt again" : "Start Number Hunt"}
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function FocusLab() {
-  const [test, setTest] = useState<1 | 2>(1);
+  const [test, setTest] = useState<1 | 2 | 3>(1);
   return (
     <div>
-      <div className="mb-3 flex gap-2">
+      <div className="mb-3 flex flex-wrap gap-2">
         {(
           [
             [1, "Test 1 · Orb Chase"],
             [2, "Test 2 · Colour Clash"],
+            [3, "Test 3 · Number Hunt"],
           ] as const
         ).map(([n, label]) => (
           <button
@@ -347,7 +523,7 @@ function FocusLab() {
           </button>
         ))}
       </div>
-      {test === 1 ? <FocusGame /> : <ColourClash />}
+      {test === 1 ? <FocusGame /> : test === 2 ? <ColourClash /> : <NumberHunt />}
     </div>
   );
 }
@@ -551,7 +727,7 @@ export function Attention() {
           Your attention is your <span className="text-teal">superpower</span>
         </>
       }
-      intro="Everything around you is designed to grab your attention. Choosing where it goes is a superpower — and like any power, it gets stronger with practice. Take both Focus Lock tests, then find out what your focus is really for."
+      intro="Everything around you is designed to grab your attention. Choosing where it goes is a superpower — and like any power, it gets stronger with practice. Take all three Focus Lock tests, then find out what your focus is really for."
     >
       <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
         <Reveal>
