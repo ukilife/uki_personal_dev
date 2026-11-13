@@ -151,14 +151,14 @@ export function FigureYourself() {
           </motion.div>
           <div className="relative max-w-2xl">
             <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-bold tracking-widest uppercase">
-              Next week · Session 03 · The Habit Forest
+              Next week · Session 03 · My Dream Board
             </span>
             <p className="mt-4 font-display text-4xl leading-tight font-bold sm:text-5xl">
-              Can small habits change your <span className="text-sun">future?</span>
+              What does your <span className="text-sun">future</span> look like?
             </p>
-            <p className="mt-4 text-lg text-white/85">Bring your missions — and your 21-day streak.</p>
-            <ButtonLink href="/#journey" className="mt-6">
-              See the journey map
+            <p className="mt-4 text-lg text-white/85">Bring your missions, your SWOT and your bucket list — you&apos;ll turn them into a dream board.</p>
+            <ButtonLink href="/sessions/dream-board" className="mt-6">
+              Go to Session 3
             </ButtonLink>
           </div>
         </div>

@@ -30,8 +30,8 @@ const CARDS: {
   {
     title: "My Dreams",
     q: "What do I want to become?",
-    href: "/sessions/discipline-and-dreams#bucket-list",
-    where: "Session 2 · Bucket List",
+    href: "/sessions/dream-board#dreams",
+    where: "Session 3 · My Dream Board",
     icon: Star,
     orbit: ["🚀", "🔭", "✨"],
     accent: "#7b3fa0",
@@ -41,8 +41,8 @@ const CARDS: {
   {
     title: "My Habits",
     q: "What am I doing every day?",
-    href: "#session-3",
-    where: "Session 3 · The Habit Forest",
+    href: "/sessions/discipline-and-dreams#21-days",
+    where: "Session 2 · 21-Day Challenge",
     icon: Sprout,
     orbit: ["⏰", "📅", "🌳"],
     accent: "#1f9d8a",

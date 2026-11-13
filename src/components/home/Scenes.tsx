@@ -149,11 +149,11 @@ function Forest() {
           {done && <path d={`M${(x as number) - 4} ${y} l3 3 l5 -6`} stroke="#1f9d8a" strokeWidth="2.5" fill="none" strokeLinecap="round" />}
         </g>
       ))}
-      {/* 21-day sign */}
+      {/* dream-board signpost */}
       <rect x="120" y="128" width="4" height="30" fill="#8b5a2b" />
       <rect x="106" y="116" width="32" height="18" rx="4" fill="#fff" stroke={INK} strokeWidth="2.5" />
       <text x="122" y="129" fontSize="11" fontWeight="700" fill={INK} textAnchor="middle" fontFamily="Fredoka, sans-serif">
-        21
+        ★
       </text>
       {[
         [70, 60, 0],

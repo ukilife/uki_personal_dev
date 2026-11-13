@@ -70,24 +70,28 @@ export const SESSIONS: SessionMeta[] = [
   },
   {
     number: 3,
-    slug: "dreams-to-discipline",
-    title: "From Dreams to Discipline",
-    destination: "The Habit Forest",
-    headline: "Can Small Habits Change Your Future?",
+    slug: "dream-board",
+    title: "My Dream Board",
+    destination: "The Vision Forest",
+    headline: "What Does Your Future Look Like?",
     description:
-      "Big dreams need small daily actions. Discover your strengths, build better habits and turn your goals into progress.",
+      "Gather your dreams, values, personality, strengths and future goals — then draw them into a dream board for your classroom wall.",
     activities: [
-      "Personal SWOT Analysis",
-      "Dream Board Presentations",
-      "Understanding Discipline",
-      "Habit Loop",
-      "21-Day Habit Tracker",
-      "Team Challenges",
+      "Why a Dream Board?",
+      "My Dreams",
+      "My Values",
+      "My Personality",
+      "My Strengths",
+      "My Future Goals",
+      "Board Planner",
+      "Draw It on Paper",
+      "Classroom Gallery Walk",
     ],
-    cta: "Build My Habits",
+    cta: "Build My Dream Board",
     scene: "forest",
     color: "#5aa832",
     soft: "bg-mint",
+    href: "/sessions/dream-board",
   },
   {
     number: 4,
@@ -145,4 +149,21 @@ export const SESSION_TWO_STOPS = [
   { id: "my-swot", label: "My SWOT", emoji: "🗺️" },
   { id: "bucket-list", label: "Bucket List", emoji: "🪣" },
   { id: "take-home", label: "Figure Yourself", emoji: "🎒" },
+] as const;
+
+/** Number of take-home missions in Session 3 (see session3/TakeHome.tsx). */
+export const SESSION_THREE_MISSIONS = 4;
+
+/** The stops of Session 3, in teaching order. */
+export const SESSION_THREE_STOPS = [
+  { id: "start", label: "My Dream Board", emoji: "🌳" },
+  { id: "why", label: "Why a Dream Board?", emoji: "💡" },
+  { id: "dreams", label: "My Dreams", emoji: "🌟" },
+  { id: "values", label: "My Values", emoji: "🧭" },
+  { id: "personality", label: "My Personality", emoji: "🎭" },
+  { id: "strengths", label: "My Strengths", emoji: "💪" },
+  { id: "goals", label: "Future Goals", emoji: "🎯" },
+  { id: "planner", label: "Board Planner", emoji: "🗺️" },
+  { id: "paper", label: "Draw It", emoji: "🖍️" },
+  { id: "take-home", label: "Take-Home", emoji: "🎒" },
 ] as const;
