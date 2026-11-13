@@ -60,9 +60,9 @@ const TABS: Tab[] = [
     icon: NotebookPen,
     color: "#2f7fc1",
     prompt: "Quiet minutes to notice what you discovered today.",
-    inside: ["“One thing I discovered today…”", "Calm-minutes checkpoint", "Figure Yourself worksheet"],
+    inside: ["“One thing I discovered today…”", "Figure Yourself worksheet", "Courage reflection"],
     href: "/sessions/who-am-i#checkpoint",
-    keys: ["s1-checkpoint", "s2-figure-yourself"],
+    keys: ["s1-checkpoint", "s2-figure-yourself", "s4-reflect"],
   },
   {
     id: "homework",

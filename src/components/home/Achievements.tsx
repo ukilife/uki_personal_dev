@@ -12,7 +12,7 @@ const BADGES: { name: string; icon: LucideIcon; color: string; soft: string; how
   { name: "Focus Champion", icon: Target, color: "#2f7fc1", soft: "bg-sky", how: "Take on all three Focus Lock tests.", where: "Session 1" },
   { name: "Dream Builder", icon: Mountain, color: "#7b3fa0", soft: "bg-lilac", how: "Draw your dream board and put it up in the classroom.", where: "Session 3" },
   { name: "Habit Hero", icon: Sprout, color: "#5aa832", soft: "bg-mint", how: "Finish your 21-Day Challenge without giving up.", where: "Session 2" },
-  { name: "Courage Explorer", icon: MessageCircle, color: "#f7845e", soft: "bg-blush", how: "Take the Real-World Stranger Challenge.", where: "Session 4" },
+  { name: "Courage Explorer", icon: MessageCircle, color: "#f7845e", soft: "bg-blush", how: "Interview a stranger and a business owner, then present.", where: "Session 4" },
 ];
 
 function BadgeCard({ b, i }: { b: (typeof BADGES)[number]; i: number }) {

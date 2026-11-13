@@ -52,8 +52,8 @@ const CARDS: {
   {
     title: "My Courage",
     q: "What new thing am I ready to try?",
-    href: "#session-4",
-    where: "Session 4 · The Courage City",
+    href: "/sessions/talk-to-a-stranger#mission",
+    where: "Session 4 · Talk to a Stranger",
     icon: MessageCircle,
     orbit: ["👋", "🗣️", "🦁"],
     accent: "#f7845e",

@@ -100,19 +100,22 @@ export const SESSIONS: SessionMeta[] = [
     destination: "The Courage City",
     headline: "What Happens When You Step Outside Your Comfort Zone?",
     description:
-      "Every person has a story. Find your courage, start conversations, listen and discover a world beyond yourself.",
+      "Every person has a story. Spend one hour out in the real world talking to a stranger and a business owner — then come back and share what you learned.",
     activities: [
-      "Speed Hellos",
-      "Conversation Practice",
-      "Real-World Stranger Challenge",
-      "Story Collection",
-      "Presenting Lessons Learned",
+      "Why Talk to Strangers?",
+      "Conversation Toolkit",
+      "Practice Round",
+      "1-Hour Real-World Mission",
+      "Interview a Person",
+      "Interview a Business",
+      "Present My Findings",
       "Personal Reflection",
     ],
     cta: "Unlock My Courage",
     scene: "city",
     color: "#f7845e",
     soft: "bg-blush",
+    href: "/sessions/talk-to-a-stranger",
   },
 ];
 
@@ -166,4 +169,20 @@ export const SESSION_THREE_STOPS = [
   { id: "planner", label: "Board Planner", emoji: "🗺️" },
   { id: "paper", label: "Draw It", emoji: "🖍️" },
   { id: "take-home", label: "Take-Home", emoji: "🎒" },
+] as const;
+
+/** Number of take-home missions in Session 4 (see session4/Reflect.tsx). */
+export const SESSION_FOUR_MISSIONS = 4;
+
+/** The stops of Session 4, in teaching order. */
+export const SESSION_FOUR_STOPS = [
+  { id: "start", label: "Talk to a Stranger", emoji: "🏙️" },
+  { id: "why", label: "Why Strangers?", emoji: "💭" },
+  { id: "toolkit", label: "Toolkit", emoji: "🧰" },
+  { id: "practice", label: "Practice", emoji: "🎭" },
+  { id: "mission", label: "1-Hour Mission", emoji: "⏱️" },
+  { id: "person", label: "A Person", emoji: "🧓" },
+  { id: "business", label: "A Business", emoji: "🏪" },
+  { id: "present", label: "Present", emoji: "🎤" },
+  { id: "reflect", label: "Reflect", emoji: "🌱" },
 ] as const;

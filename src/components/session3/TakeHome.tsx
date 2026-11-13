@@ -108,8 +108,8 @@ export function TakeHome() {
               What happens when you step outside your <span className="text-sun">comfort zone?</span>
             </p>
             <p className="mt-4 text-lg text-white/85">Your board shows where you&apos;re going. Next week, you find the courage to go there.</p>
-            <ButtonLink href="/#journey" className="mt-6">
-              See the journey map
+            <ButtonLink href="/sessions/talk-to-a-stranger" className="mt-6">
+              Go to Session 4
             </ButtonLink>
           </div>
         </div>
