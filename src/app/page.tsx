@@ -8,6 +8,7 @@ import { DiscoverYourself } from "@/components/home/DiscoverYourself";
 import { GrowthJournal } from "@/components/home/GrowthJournal";
 import { Achievements } from "@/components/home/Achievements";
 import { FinalCta } from "@/components/home/FinalCta";
+import { MindGamesTeaser } from "@/components/home/MindGamesTeaser";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <GrowthJournal />
         <CuriousQuestion q="Are you in control of your attention?" emoji="🎯" tone="sun" />
         <Achievements />
+        <MindGamesTeaser />
         <CuriousQuestion q="What would you attempt if you weren't afraid?" emoji="🦁" tone="lilac" />
         <FinalCta />
       </main>

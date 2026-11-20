@@ -67,6 +67,12 @@ export function SiteNav({ sessionLabel }: { sessionLabel?: string }) {
             <span className="hidden rounded-full bg-blush px-3 py-1.5 sm:inline">{sessionLabel}</span>
           )}
           <Link
+            href="/mind-games/"
+            className="rounded-full border-2 border-ink bg-grape px-3 py-1.5 whitespace-nowrap text-white transition hover:bg-sun hover:text-ink sm:px-4"
+          >
+            🧠 <span className="hidden sm:inline">Mind </span>Games
+          </Link>
+          <Link
             href="/#journey"
             className="rounded-full border-2 border-ink bg-white px-3 py-1.5 whitespace-nowrap transition hover:bg-sun sm:px-4"
           >
