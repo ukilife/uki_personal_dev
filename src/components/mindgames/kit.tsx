@@ -51,7 +51,11 @@ export function tone(freq: number, ms = 300) {
 export function Stage({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <div
-      className={`relative flex min-h-[22rem] flex-col items-center justify-center overflow-hidden rounded-[1.75rem] border-2 border-ink bg-paper p-5 text-center sm:p-8 ${className}`}
+      // only fall back to paper when the game doesn't set its own background,
+      // otherwise two bg-* classes fight and the light one can win (light text on light bg)
+      className={`relative flex min-h-[22rem] flex-col items-center justify-center overflow-hidden rounded-[1.75rem] border-2 border-ink p-5 text-center transition-colors sm:p-8 ${
+        /(^|\s)bg-/.test(className) ? "" : "bg-paper"
+      } ${className}`}
     >
       {children}
     </div>
@@ -89,7 +93,7 @@ export function Hud({ items }: { items: [string, ReactNode][] }) {
   return (
     <div className="absolute top-3 right-3 left-3 flex justify-between gap-2 text-sm font-bold">
       {items.map(([k, v]) => (
-        <span key={k} className="rounded-full border-2 border-ink bg-white px-3 py-1">
+        <span key={k} className="rounded-full border-2 border-ink bg-white px-3 py-1 text-ink">
           {k} <span className="tabular-nums">{v}</span>
         </span>
       ))}

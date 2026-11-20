@@ -61,10 +61,10 @@ export type MindGame = {
 
 export const FAMILIES: Record<GameFamily, { label: string; color: string; soft: string; blurb: string }> = {
   focus: { label: "Focus & Memory", color: "#2f7fc1", soft: "bg-sky", blurb: "Train where your attention goes — and how much it can hold." },
-  thinking: { label: "Thinking Skills", color: "#1f9d8a", soft: "bg-teal-soft", blurb: "Spot patterns, reason it out, think fast and think new." },
+  thinking: { label: "Thinking Skills", color: "#1a8574", soft: "bg-teal-soft", blurb: "Spot patterns, reason it out, think fast and think new." },
   planning: { label: "Planning & Problem Solving", color: "#7b3fa0", soft: "bg-lilac", blurb: "Think before you move. See the steps, then take them." },
-  character: { label: "Character & Calm", color: "#f7845e", soft: "bg-blush", blurb: "Patience, self-control, calm and never giving up." },
-  together: { label: "Together", color: "#d9a400", soft: "bg-sun-soft", blurb: "Whole-class games that need every single person." },
+  character: { label: "Character & Calm", color: "#c2532c", soft: "bg-blush", blurb: "Patience, self-control, calm and never giving up." },
+  together: { label: "Together", color: "#8a6400", soft: "bg-sun-soft", blurb: "Whole-class games that need every single person." },
   boss: {
     label: "🔥 Brain Boss",
     color: "#d9345b",
