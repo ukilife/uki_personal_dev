@@ -7,7 +7,7 @@ import { MindGamesHub } from "@/components/mindgames/Hub";
 export const metadata: Metadata = {
   title: "Mind Games — Unfold",
   description:
-    "20 quick interactive brain breaks for between lessons. Each game trains a real quality: focus, memory, planning, patience, teamwork and more.",
+    "30 interactive brain breaks for between lessons, including 10 harder Brain Boss challenges. Each game trains a real quality: focus, memory, planning, patience, teamwork and more.",
 };
 
 export default function MindGamesPage() {

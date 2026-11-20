@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Check, Clock, MessageCircle, Shuffle, Sparkles, Users, User, X } from "lucide-react";
 import { Button, Pill, Reveal } from "@/components/ui";
 import { useLocalState } from "@/lib/useLocalState";
-import { FAMILIES, MIND_GAMES, type GameFamily, type MindGame } from "@/lib/mindGames";
+import { BOSS_COUNT, FAMILIES, MIND_GAMES, type GameFamily, type MindGame } from "@/lib/mindGames";
 import { GAME_COMPONENTS } from "./registry";
 import { pick } from "./kit";
 
@@ -43,9 +43,17 @@ function GameCard({ g, n, played, onOpen }: { g: MindGame; n: number; played?: s
       exit={{ opacity: 0, scale: 0.9 }}
       whileHover={{ y: -6, rotate: n % 2 ? 1 : -1 }}
       onClick={onOpen}
-      className="card-pop group relative flex h-full flex-col rounded-3xl border-2 border-ink bg-white p-5 text-left"
+      className={`card-pop group relative flex h-full flex-col rounded-3xl border-2 border-ink p-5 text-left ${
+        g.family === "boss" ? "bg-gradient-to-br from-white to-blush/70 ring-4 ring-berry/25" : "bg-white"
+      }`}
     >
-      <span className="absolute top-4 right-4 font-display text-3xl font-bold text-ink/10">{String(n).padStart(2, "0")}</span>
+      {g.family === "boss" ? (
+        <span className="absolute top-4 right-4 rounded-full border-2 border-ink bg-berry px-2.5 py-0.5 text-xs font-bold tracking-wider text-white uppercase">
+          🔥 Harder
+        </span>
+      ) : (
+        <span className="absolute top-4 right-4 font-display text-3xl font-bold text-ink/10">{String(n).padStart(2, "0")}</span>
+      )}
       <span className={`grid h-14 w-14 place-items-center rounded-2xl border-2 border-ink text-3xl ${fam.soft}`}>{g.emoji}</span>
       <h3 className="mt-3 text-2xl font-bold">{g.title}</h3>
       <span
@@ -213,7 +221,9 @@ export function MindGamesHub() {
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-8 md:py-24">
         <Reveal className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <Pill className="bg-blush text-ink">20 games · 20 qualities</Pill>
+            <Pill className="bg-blush text-ink">
+              {MIND_GAMES.length} games · {MIND_GAMES.length} qualities · {BOSS_COUNT} Brain Boss
+            </Pill>
             <h2 className="mt-4 text-4xl leading-tight font-bold sm:text-5xl">Pick a game. Train a skill.</h2>
             <p className="mt-3 text-lg text-ink-soft">
               Every game names the quality it builds, the lesson behind it, and one question to talk about afterwards.
@@ -239,7 +249,7 @@ export function MindGamesHub() {
             onClick={() => setFilter("all")}
             className={`rounded-full border-2 border-ink px-4 py-1.5 text-sm font-bold transition ${filter === "all" ? "bg-ink text-cream" : "bg-white hover:bg-sun-soft"}`}
           >
-            All 20
+            All {MIND_GAMES.length}
           </button>
           {FAMILY_ORDER.map((f) => {
             const n = MIND_GAMES.filter((g) => g.family === f).length;

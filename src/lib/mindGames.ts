@@ -1,5 +1,5 @@
 /**
- * Mind Games — 20 quick brain breaks for between lessons.
+ * Mind Games — 30 brain breaks for between lessons (20 warm-ups + 10 Brain Boss challenges).
  * Every game trains one real quality, so the fun leaves something behind.
  */
 
@@ -23,9 +23,19 @@ export type Quality =
   | "Good judgement"
   | "Decision making"
   | "Teamwork"
-  | "Persistence";
+  | "Persistence"
+  | "Working memory"
+  | "Deduction"
+  | "Spatial thinking"
+  | "Strategic thinking"
+  | "Thinking ahead"
+  | "Critical thinking"
+  | "Resourcefulness"
+  | "Mental stamina"
+  | "Prioritising"
+  | "Composure";
 
-export type GameFamily = "focus" | "thinking" | "planning" | "character" | "together";
+export type GameFamily = "focus" | "thinking" | "planning" | "character" | "together" | "boss";
 
 export type MindGame = {
   id: string;
@@ -55,6 +65,12 @@ export const FAMILIES: Record<GameFamily, { label: string; color: string; soft: 
   planning: { label: "Planning & Problem Solving", color: "#7b3fa0", soft: "bg-lilac", blurb: "Think before you move. See the steps, then take them." },
   character: { label: "Character & Calm", color: "#f7845e", soft: "bg-blush", blurb: "Patience, self-control, calm and never giving up." },
   together: { label: "Together", color: "#d9a400", soft: "bg-sun-soft", blurb: "Whole-class games that need every single person." },
+  boss: {
+    label: "🔥 Brain Boss",
+    color: "#d9345b",
+    soft: "bg-blush",
+    blurb: "Harder level. These take real effort — you might fail the first time. That's the point.",
+  },
 };
 
 export const MIND_GAMES: MindGame[] = [
@@ -340,4 +356,150 @@ export const MIND_GAMES: MindGame[] = [
   },
 ];
 
+/** Brain Boss: 10 harder games for students who have warmed up. */
+MIND_GAMES.push(
+  {
+    id: "two-back",
+    title: "Two Back",
+    emoji: "🔁",
+    quality: "Working memory",
+    family: "boss",
+    minutes: 3,
+    mode: "both",
+    hook: "Is this the same picture as TWO pictures ago? Your brain must hold, update and compare — all at once.",
+    how: "Pictures appear one by one. Press MATCH when the picture is the same as the one shown two steps earlier. Brave? Try Three Back.",
+    lesson: "Working memory is your brain's whiteboard. It holds information while you use it — and it gets stronger when you push it.",
+    realLife: "Mental maths, following a conversation while planning your reply, reading a long sentence and remembering how it started.",
+    talk: "What trick did you use to keep the last two pictures in your head?",
+  },
+  {
+    id: "safe-cracker",
+    title: "Safe Cracker",
+    emoji: "🔐",
+    quality: "Deduction",
+    family: "boss",
+    minutes: 5,
+    mode: "both",
+    hook: "A secret 4-digit code. 10 tries. Every clue narrows it down — if you use it.",
+    how: "Guess a 4-digit code (no repeated digits). 🟢 = right digit, right place. 🟡 = right digit, wrong place. Crack it in 10 tries.",
+    lesson: "Deduction means using every clue to rule things out. Each wrong guess is information, not failure.",
+    realLife: "Detective work, science experiments, finding a bug, working out what went wrong in a test.",
+    talk: "Which guess taught you the most? Was it a 'wrong' one?",
+  },
+  {
+    id: "mirror-mind",
+    title: "Mirror Mind",
+    emoji: "🪞",
+    quality: "Spatial thinking",
+    family: "boss",
+    minutes: 3,
+    mode: "both",
+    hook: "Same shape turned around — or its mirror twin? Spin it in your head.",
+    how: "Two shapes appear. The second one is rotated. Decide: is it the SAME shape, or a MIRROR image? 15 rounds, against the clock.",
+    lesson: "Spatial thinking is turning things over in your mind's eye. It's trainable — and it powers maths, science and design.",
+    realLife: "Reading maps, geometry, packing a bag, building, drawing, sports positions.",
+    talk: "Did you turn the shape in your head, or look for one special corner?",
+  },
+  {
+    id: "jug-logic",
+    title: "Jug Logic",
+    emoji: "🫗",
+    quality: "Strategic thinking",
+    family: "boss",
+    minutes: 5,
+    mode: "both",
+    hook: "A 3-litre jug and a 5-litre jug. Measure exactly 4 litres. No markings!",
+    how: "Fill, empty and pour between two jugs until one holds exactly the target amount. Three levels, each trickier.",
+    lesson: "Strategic thinkers use what they have in clever combinations instead of wishing for the perfect tool.",
+    realLife: "Making a plan with limited time or money, combining skills in a team, cooking without all the ingredients.",
+    talk: "What was the key move that unlocked the puzzle?",
+  },
+  {
+    id: "river-run",
+    title: "River Run",
+    emoji: "🛶",
+    quality: "Thinking ahead",
+    family: "boss",
+    minutes: 5,
+    mode: "both",
+    hook: "Get the fox, the chicken and the grain across the river. Leave the wrong pair alone and… oops.",
+    how: "The boat carries you plus one thing. Never leave the fox alone with the chicken, or the chicken alone with the grain.",
+    lesson: "Thinking ahead means asking 'and then what?' before every move. Sometimes you must take something BACK to move forward.",
+    realLife: "Planning a project with deadlines, sharing time between subjects, avoiding problems before they start.",
+    talk: "Did you ever have to carry something back? How did that feel?",
+  },
+  {
+    id: "truth-or-lie",
+    title: "Truth or Lie",
+    emoji: "🕵️",
+    quality: "Critical thinking",
+    family: "boss",
+    minutes: 5,
+    mode: "class",
+    hook: "Someone is lying. The clues are all you get. Who did it?",
+    how: "Read the statements. Test each possibility: 'If this were true, who would be lying?' Pick the only answer that fits.",
+    lesson: "Critical thinkers don't believe the first thing they hear. They test every claim against the facts.",
+    realLife: "Fake news, rumours, adverts, online videos, arguments between friends.",
+    talk: "How did you check your answer instead of guessing?",
+  },
+  {
+    id: "make-24",
+    title: "Make 24",
+    emoji: "🎯",
+    quality: "Resourcefulness",
+    family: "boss",
+    minutes: 5,
+    mode: "both",
+    hook: "Four numbers. Plus, minus, times, divide. Use each once to make exactly 24.",
+    how: "Tap a number, an operation, then another number to combine them. Keep combining until one number is left. Make it 24!",
+    lesson: "Resourceful people try many combinations with what they have. When one path fails, they try another.",
+    realLife: "Solving problems with limited resources, fixing things, finding another way when Plan A fails.",
+    talk: "How many different paths did you try before one worked?",
+  },
+  {
+    id: "chain-calc",
+    title: "Chain Calc",
+    emoji: "🧮",
+    quality: "Mental stamina",
+    family: "boss",
+    minutes: 3,
+    mode: "both",
+    hook: "Start with a number. Steps flash one by one. Keep the total in your head — no paper!",
+    how: "Watch a starting number, then a chain of operations (+7, ×2, −5…). Keep a running total in your head and type the final answer.",
+    lesson: "Mental stamina is staying sharp for longer. Like running, the brain builds endurance one step further each time.",
+    realLife: "Long exams, long reading, listening to a full lesson, finishing homework without giving up halfway.",
+    talk: "At which step did it get hard? What helped you hold on?",
+  },
+  {
+    id: "budget-boss",
+    title: "Budget Boss",
+    emoji: "💰",
+    quality: "Prioritising",
+    family: "boss",
+    minutes: 4,
+    mode: "both",
+    hook: "You can't have everything. Pick the best mix within the budget.",
+    how: "Choose items for a mission. Each costs coins and gives points. Stay within the budget and score as close to the best possible plan as you can.",
+    lesson: "Prioritising is choosing what matters MOST when you can't do it all. Saying no to good things makes room for great things.",
+    realLife: "Spending pocket money, planning your time before exams, choosing activities, packing for a trip.",
+    talk: "What did you have to leave out? Was it hard to let go?",
+  },
+  {
+    id: "arrow-storm",
+    title: "Arrow Storm",
+    emoji: "🌪️",
+    quality: "Composure",
+    family: "boss",
+    minutes: 2,
+    mode: "both",
+    hook: "Follow the MIDDLE arrow. If the arrows turn RED — do the opposite. It gets faster…",
+    how: "Press the direction of the middle arrow only. When arrows are red, press the OPPOSITE way. Speed increases every few rounds.",
+    lesson: "Composure is staying calm and clear when the pressure rises. Panic makes you fast AND wrong; calm makes you fast AND right.",
+    realLife: "Timed exams, sports matches, speaking when everyone is watching, emergencies.",
+    talk: "When it got fast, did you panic or settle? What did your breathing do?",
+  },
+);
+
+export const WARMUP_COUNT = MIND_GAMES.filter((g) => g.family !== "boss").length;
+export const BOSS_COUNT = MIND_GAMES.length - WARMUP_COUNT;
 export const QUALITIES = MIND_GAMES.map((g) => g.quality);

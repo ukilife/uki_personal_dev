@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import { ButtonLink, Pill, Reveal } from "@/components/ui";
-import { MIND_GAMES } from "@/lib/mindGames";
+import { BOSS_COUNT, MIND_GAMES } from "@/lib/mindGames";
 
 const FLOATERS = ["🎨", "🧩", "🗼", "🤖", "⚖️", "💡", "🫧", "🧠", "🔀", "⏱️"];
 
@@ -31,7 +31,8 @@ export function MindGamesHero() {
             Mind <span className="squiggle text-sun">Games</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-xl text-cream/80">
-            Feeling sleepy in class? Wake your brain up with {MIND_GAMES.length} quick games. Each one is fun — and each one secretly trains a
+            Feeling sleepy in class? Wake your brain up with {MIND_GAMES.length} games — including {BOSS_COUNT} harder{" "}
+            <b className="text-sun">🔥 Brain Boss</b> challenges. Each one is fun — and each one secretly trains a
             real quality like <b className="text-cream">focus</b>, <b className="text-cream">planning</b>, <b className="text-cream">patience</b> or{" "}
             <b className="text-cream">teamwork</b>.
           </p>
